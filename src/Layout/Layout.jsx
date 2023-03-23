@@ -4,8 +4,10 @@ import PaymentPage from "../Components/Payment/PaymentPage";
 import Profile from "../Components/Profile/Profile";
 import Home from "../Pages/Home";
 import LogIn from "../Pages/LogIn";
+import MyProfile from "../Pages/MyProfile";
 import Packages from "../Pages/Packages";
 import Signup from "../Pages/SignUp";
+import UserProfile from "../Pages/UserProfile";
 import PrivateRoute from "../utils/Routes/PrivateRoute";
 import PublicRoute from "../utils/Routes/PublicRoute";
 import PrivateLayout from "./Private/PrivateLayout";
@@ -28,8 +30,9 @@ function Layout() {
             <Route path="/dashboard" element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
                 <Route index element={<AllUsers />} />
             </Route>
-            <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>}>
+            <Route path="/profile" element={<PrivateRoute><MyProfile /></PrivateRoute>}>
             </Route>
+            <Route path="/user-profile/:id" element={<PrivateRoute><UserProfile /></PrivateRoute>}></Route>
 
 
             <Route path='*' element={<p>Not found</p>} />
