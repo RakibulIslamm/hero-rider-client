@@ -9,7 +9,7 @@ const Packages = () => {
 
     useEffect(() => {
         const getPackages = async () => {
-            const res = await fetch('http://localhost:5000/packages');
+            const res = await fetch('https://hero-rider.glitch.me/packages');
             const data = await res.json();
             setPackages(data);
         }

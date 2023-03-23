@@ -11,7 +11,7 @@ const UserProfile = () => {
     const { id } = useParams();
     useEffect(() => {
         const getUser = async () => {
-            const res = await fetch(`http://localhost:5000/user-profile/${id}`);
+            const res = await fetch(`https://hero-rider.glitch.me/user-profile/${id}`);
             const data = await res.json();
             setUser(data)
         }
@@ -22,7 +22,7 @@ const UserProfile = () => {
 
     useEffect(() => {
         const getBookedPackages = async () => {
-            const res = await fetch(`http://localhost:5000/booked-packages?email=${user.email}`);
+            const res = await fetch(`https://hero-rider.glitch.me/booked-packages?email=${user.email}`);
             const data = await res.json();
             setBookedPackages(data)
         }

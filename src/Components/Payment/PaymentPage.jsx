@@ -12,7 +12,7 @@ const PaymentPage = () => {
     const [order, setOrder] = useState({});
     const { id } = useParams();
     useEffect(() => {
-        fetch(`http://localhost:5000/package/${id}`)
+        fetch(`https://hero-rider.glitch.me/package/${id}`)
             .then(res => res.json())
             .then(data => setOrder(data))
     }, [id]);

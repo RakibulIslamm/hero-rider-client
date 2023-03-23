@@ -22,7 +22,7 @@ const CheckOutForm = ({ order }) => {
         setLoading(true)
         const getSecret = async () => {
             try {
-                const res = await fetch('http://localhost:5000/create-payment-intent', {
+                const res = await fetch('https://hero-rider.glitch.me/create-payment-intent', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -98,7 +98,7 @@ const CheckOutForm = ({ order }) => {
                     transactionId: paymentIntent.id
                 }
 
-                fetch('http://localhost:5000/booking', {
+                fetch('https://hero-rider.glitch.me/booking', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(bookedPackage)

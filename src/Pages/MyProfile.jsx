@@ -6,11 +6,11 @@ import banner from '../assets/gradient_2.jpg'
 
 const MyProfile = () => {
     const [bookedPackages, setBookedPackages] = useState([]);
-    const { user } = useAuth();
+    const { user, isLoading } = useAuth();
 
     useEffect(() => {
         const getUser = async () => {
-            const res = await fetch(`http://localhost:5000/booked-packages?email=${user.email}`);
+            const res = await fetch(`https://hero-rider.glitch.me/booked-packages?email=${user.email}`);
             const data = await res.json();
             setBookedPackages(data)
         }
@@ -23,7 +23,14 @@ const MyProfile = () => {
         <>
             <NavBar />
             <img className='h-[250px] w-full object-cover object-bottom' src={banner} alt="" />
-            <Profile bookedPackages={bookedPackages} user={user} />
+            {
+                isLoading ?
+                    <div className='w-full h-[30vh] flex justify-center items-center'>
+                        <h2 className='text-3xl font-bold text-gray-400'>Loading...</h2>
+                    </div>
+                    :
+                    <Profile bookedPackages={bookedPackages} user={user} />
+            }
         </>
     );
 };

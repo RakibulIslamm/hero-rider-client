@@ -7,13 +7,23 @@ import useAuth from "./useAuth";
 const useListenAuth = () => {
     const [authChecked, setAuthChecked] = useState(false);
     const auth = getAuth(authApp);
-    const { setUser } = useAuth();
+    const { setUser, setIsLoading } = useAuth();
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
-                fetch(`http://localhost:5000/user/${user?.email}`)
-                    .then(res => res.json())
-                    .then(data => setUser(data))
+                setUser(user)
+                setIsLoading(true);
+                try {
+                    const res = await fetch(`https://hero-rider.glitch.me/user/${user?.email}`)
+                    const data = await res.json();
+                    setUser(data);
+                }
+                catch (err) {
+
+                }
+                finally {
+                    setIsLoading(false)
+                }
             } else {
                 // console.log('User Not Found');
             }

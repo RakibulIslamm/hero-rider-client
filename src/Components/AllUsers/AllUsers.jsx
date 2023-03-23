@@ -14,6 +14,7 @@ const AllUsers = () => {
     const [totalCount, setTotalCount] = useState(0);
     const [searchText, setSearchText] = useState('');
     const [ageRange, setAgeRange] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const { user } = useAuth();
 
@@ -30,15 +31,18 @@ const AllUsers = () => {
     }
 
     useEffect(() => {
+        setLoading(true);
         const getUsers = async () => {
             try {
-                const res = await fetch(`http://localhost:5000/users?${emailSearch ? 'email=' + searchText : nameSearch ? 'name=' + searchText : phoneSearch ? 'phone=' + searchText : ''}&age=${age}&offset=${pageNum}&limit=${itemCount}`);
+                const res = await fetch(`https://hero-rider.glitch.me/users?${emailSearch ? 'email=' + searchText : nameSearch ? 'name=' + searchText : phoneSearch ? 'phone=' + searchText : ''}&age=${age}&offset=${pageNum}&limit=${itemCount}`);
                 const data = await res.json();
                 setUsers(data.users);
                 setTotalCount(data.count);
             }
             catch (err) { }
-            finally { }
+            finally {
+                setLoading(false);
+            }
         }
         getUsers();
     }, [searchText, pageNum, ageRange])
@@ -65,7 +69,7 @@ const AllUsers = () => {
 
         if (selectedText === 'Block') {
             try {
-                const res = await fetch('http://localhost:5000/block-users', {
+                const res = await fetch('https://hero-rider.glitch.me/block-users', {
                     method: 'PUT',
                     headers: { 'Content-type': 'application/json' },
                     body: JSON.stringify(selectedUsers)
@@ -87,7 +91,7 @@ const AllUsers = () => {
         }
         else if (selectedText === 'Unblock') {
             try {
-                const res = await fetch('http://localhost:5000/unblock-users', {
+                const res = await fetch('https://hero-rider.glitch.me/unblock-users', {
                     method: 'PUT',
                     headers: { 'Content-type': 'application/json' },
                     body: JSON.stringify(selectedUsers)
@@ -206,10 +210,20 @@ const AllUsers = () => {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                         {
+                            loading && <tr className="hover:bg-gray-100 dark:hover:bg-gray-700 w-full">
+                                <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>
+                                <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Loading....</td>
+                                <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>
+                                <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>
+                                <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>
+                                <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>
+                            </tr>
+                        }
+                        {
                             users?.map(user => <SingleUser key={user._id} user={user} selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} />)
                         }
                         {
-                            !users.length && <tr className="hover:bg-gray-100 dark:hover:bg-gray-700 w-full">
+                            (!loading && !users.length) && <tr className="hover:bg-gray-100 dark:hover:bg-gray-700 w-full">
                                 <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>
                                 <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">User not found</td>
                                 <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>

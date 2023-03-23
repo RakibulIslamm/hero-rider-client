@@ -29,7 +29,7 @@ const useFirebase = () => {
             user_type: userInfo.user_type,
             area: userInfo.area,
         }
-        fetch('http://localhost:5000/users', {
+        fetch('https://hero-rider.glitch.me/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(saveUser)
